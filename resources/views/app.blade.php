@@ -1,18 +1,15 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@extends('layouts.app')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Vue Laravel SPA') }}</title>
-
-    <!-- Styles -->
-</head>
 <body>
+@if (Auth::user())
+<nav class="navbar navbar-expand-md navbar-light bg-blue-400 shadow-sm p-3">
+    {{ Auth::user()->name }}さん
+    <a class="w-full bg-gray-400 py-2 px-3 uppercase rounded text-blue-800 font-bold" 
+        href="{{ route('twitterLogout') }}">
+        ログアウト
+    </a>
+</nav>
+@endif
 <div id="app">
 </div>
 <!-- Scripts -->

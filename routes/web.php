@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\TwitterLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [TwitterLoginController::class, 'index'])->name('top');
 
-Route::get('/{any}', [App\Http\Controllers\AppController::class, 'index'])->where('any', '.*');
+// ログインURL
+Route::get('auth/twitter/login', [TwitterLoginController::class, 'redirectToProvider'])->name('twitterLogin');
+// コールバックURL
+Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProviderCallback']);
+// ログアウトURL
+Route::get('auth/twitter/logout', [TwitterLoginController::class, 'logout'])->name('twitterLogout');
+
+Route::get('/{any}', [AppController::class, 'index'])->where('any', '.*');
