@@ -38,3 +38,10 @@ https://gamushiros.hatenablog.com/entry/2018/07/29/211219
 ```
 http://127.0.0.1:40050/
 ```
+
+### フロントコンパイル
+```
+docker-compose exec web sh
+npm run dev
+npm run build
+```
