@@ -14,8 +14,8 @@ class TwitterLoginController extends Controller
     public function index()
     {
         if (Auth::user()) {
-            // ログイン済みのユーザーはhome画面にリダイレクト
-            return redirect('/home');
+            // ログイン済みのユーザーはtop画面にリダイレクト
+            return redirect('/top');
         } else {
             return view('twitterLogin')->with('title', 'ログイン | Tsumiage App');
         }
@@ -41,9 +41,8 @@ class TwitterLoginController extends Controller
         } catch (Exception $e) {
             return redirect('auth/twitter');
         }
-         if(User::where('email', $twitterUser->getId())->exists()){
-            $user = User::where('email', $twitterUser->getId())->first();
-
+        $user = User::where('twitter_id', $twitterUser->getId())->first();
+         if($user){
             if ($twitterUser->getAvatar() != $user->avatar) {
                 // ツイッターでアバターが更新されていた場合はデータベースの情報も更新する
                 User::where('email', $twitterUser->getId())->update(['avatar' => $twitterUser->getAvatar()]);
@@ -60,7 +59,7 @@ class TwitterLoginController extends Controller
          }
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
          Auth::login($user);
-         return redirect('/home');
+         return redirect('/top');
      }
 
      public function logout()

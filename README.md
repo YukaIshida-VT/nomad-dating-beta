@@ -45,3 +45,5 @@ docker-compose exec web sh
 npm run dev
 npm run build
 ```
+- ルーティング設定
+resources/js/router.js
