@@ -14,7 +14,7 @@ use App\Http\Controllers\TwitterLoginController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [TwitterLoginController::class, 'index'])->name('top');
+Route::get('/', [TwitterLoginController::class, 'index'])->name('beforeLogin');
 
 // ログインURL
 Route::get('auth/twitter/login', [TwitterLoginController::class, 'redirectToProvider'])->name('twitterLogin');
