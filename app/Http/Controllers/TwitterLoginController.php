@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Cookie;
 
 
 class TwitterLoginController extends Controller
@@ -52,18 +53,25 @@ class TwitterLoginController extends Controller
             $user->name = $twitterUser->getName();
             $user->twitter_id = $twitterUser->getId();
             $user->password = md5(Str::uuid());
-            $user->api_token = Str::random(32);
             $user->avatar = $twitterUser->getAvatar();
             $user->nickname = $twitterUser->getNickname();
             $user->save();
          }
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
+         // ToDo personal access tokenの有効期限はcookieと合わせるべき？
+         $PAToken = $user->createToken('undefined')->plainTextToken;
+         $cookie = Cookie(
+            'PAToken', $PAToken, 60 * 24 * 7
+        );
+        // ToDo Auth::loginの処理は不要？
          Auth::login($user);
          return redirect('/top');
      }
 
      public function logout()
      {
+        Cookie::forget('PAToken');
+        // ToDo Auth::logoutの処理は不要？
          Auth::logout();
          return redirect('/');
      }
