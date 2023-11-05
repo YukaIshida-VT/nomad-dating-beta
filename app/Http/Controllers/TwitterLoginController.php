@@ -27,9 +27,9 @@ class TwitterLoginController extends Controller
        *
        * @return \Illuminate\Http\Response
        */      
-      public function redirectToProvider(){
+    public function redirectToProvider(){
         return Socialite::driver('twitter')->redirect();
-     }   
+    }   
     /**
      * Twitterからユーザー情報を取得(Callback先)
      *
@@ -46,7 +46,7 @@ class TwitterLoginController extends Controller
          if($user){
             if ($twitterUser->getAvatar() != $user->avatar) {
                 // ツイッターでアバターが更新されていた場合はデータベースの情報も更新する
-                User::where('email', $twitterUser->getId())->update(['avatar' => $twitterUser->getAvatar()]);
+                User::where('twitter_id', $twitterUser->getId())->update(['avatar' => $twitterUser->getAvatar()]);
             }
          }else{
             $user = new User();
@@ -58,16 +58,23 @@ class TwitterLoginController extends Controller
             $user->save();
          }
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
-         // ToDo personal access tokenの有効期限はcookieと合わせるべき？
-         $PAToken = $user->createToken('undefined')->plainTextToken;
-        //  Auth::login($user);
-         return redirect('/top');
+         $token = $user->createToken('undefined')->plainTextToken;
+
+         // セッションに値を保存
+        session_start();
+        $_SESSION['token'] = $token;
+        
+        // ToDo Auth::logingの処理は不要？→必要そうだ
+        Auth::login($user);
+        return redirect('/top'); 
      }
 
      public function logout()
      {
-        // ToDo Auth::logoutの処理は不要？
-        //  Auth::logout();
+        // セッションから値を削除
+        session_start();
+        unset($_SESSION['token']);
+         Auth::logout();
          return redirect('/');
      }
 }

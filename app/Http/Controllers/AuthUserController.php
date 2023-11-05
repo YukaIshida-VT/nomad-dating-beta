@@ -7,8 +7,19 @@ use Illuminate\Http\Request;
 
 class AuthUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function show()
     {
-        return new UserResource(auth()->user());
+        $authUser = auth()->user();
+        session_start();
+        $token = $_SESSION['token'];
+        return response([
+            'user' => $authUser,
+            'token' => $token
+        ]);
     }
 }

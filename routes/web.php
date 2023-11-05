@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\TwitterLoginController;
 use App\Http\Controllers\LoginController;
@@ -24,6 +25,7 @@ Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProvid
 // ログアウトURL
 Route::get('auth/twitter/logout', [TwitterLoginController::class, 'logout'])->name('twitterLogout');
 
-Route::get('login', [LoginController::class, 'login']);
+// Route::get('login', [LoginController::class, 'login']);
+Route::get('/auth-user', [AuthUserController::class, 'show']);
 
 Route::get('/{any}', [AppController::class, 'index'])->where('any', '.*');

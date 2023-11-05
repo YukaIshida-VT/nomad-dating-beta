@@ -1,5 +1,5 @@
 <template>
-  test
+  App.vue
   <router-view></router-view>
 </template>
 
@@ -23,7 +23,7 @@
         },
 
         mounted() {
-            this.$store.dispatch('fetchAuthUser');
+            // this.$store.dispatch('fetchAuthUser');
         },
 
         created() {
@@ -33,7 +33,6 @@
                 (config) => {
                     if (config.method === 'get') {
                         config.url = config.url + '?api_token=' + this.user.api_token;
-                        console.log(55555)
                     } else {
                         config.data = {
                             ...config.data,
