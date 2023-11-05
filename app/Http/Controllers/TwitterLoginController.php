@@ -60,19 +60,14 @@ class TwitterLoginController extends Controller
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
          // ToDo personal access tokenの有効期限はcookieと合わせるべき？
          $PAToken = $user->createToken('undefined')->plainTextToken;
-         $cookie = Cookie(
-            'PAToken', $PAToken, 60 * 24 * 7
-        );
-        // ToDo Auth::loginの処理は不要？
-         Auth::login($user);
+        //  Auth::login($user);
          return redirect('/top');
      }
 
      public function logout()
      {
-        Cookie::forget('PAToken');
         // ToDo Auth::logoutの処理は不要？
-         Auth::logout();
+        //  Auth::logout();
          return redirect('/');
      }
 }
