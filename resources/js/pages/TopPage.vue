@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import axiosClient from "../axios";
+
     export default {
         name: "TopPage",
 
@@ -76,10 +78,10 @@
 
         methods: {
           getUsers: function() {
-            axios.get('/api/users')
+            axiosClient.get('/users')
                 .then(response => {
                     if (response) {
-                        this.users = response;
+                        this.users = response.data;
                     }
                     this.loading = false;
                 })

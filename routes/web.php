@@ -26,6 +26,6 @@ Route::get('auth/twitter/callback',[TwitterLoginController::class, 'handleProvid
 Route::get('auth/twitter/logout', [TwitterLoginController::class, 'logout'])->name('twitterLogout');
 
 // Route::get('login', [LoginController::class, 'login']);
-Route::get('/auth-user', [AuthUserController::class, 'show']);
+Route::post('/auth-user', [AuthUserController::class, 'show']);
 
 Route::get('/{any}', [AppController::class, 'index'])->where('any', '.*');
