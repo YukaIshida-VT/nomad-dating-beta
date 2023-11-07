@@ -53,7 +53,8 @@ class TwitterLoginController extends Controller
             $user->name = $twitterUser->getName();
             $user->twitter_id = $twitterUser->getId();
             $user->password = md5(Str::uuid());
-            $user->avatar = $twitterUser->getAvatar();
+            $user->description = $twitterUser->user['description'];
+            $user->avatar = $twitterUser->attributes['avatar_original'];
             $user->nickname = $twitterUser->getNickname();
             $user->save();
          }

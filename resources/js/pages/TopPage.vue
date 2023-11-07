@@ -15,7 +15,7 @@
       <v-container>
         <v-row>
           <v-col
-            v-for="n in 24"
+            v-for="n in users.length"
             :key="n"
             cols="4"
           >
@@ -26,10 +26,10 @@
               <v-img
                 class="align-end text-white"
                 height="200"
-                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                :src="users[n -1].avatar"
                 cover
               >
-                <v-card-title>Top 10 Australian beaches</v-card-title>
+                <v-card-title class="black">{{ users[n -1].name }}</v-card-title>
               </v-img>
 
               <v-card-subtitle class="pt-4">
@@ -81,7 +81,7 @@ import axiosClient from "../axios";
             axiosClient.get('/users')
                 .then(response => {
                     if (response) {
-                        this.users = response.data;
+                        this.users = response.data.data;
                     }
                     this.loading = false;
                 })
@@ -92,3 +92,9 @@ import axiosClient from "../axios";
           },
     }
 </script>
+
+<style scoped>
+  .black {
+    color: black;
+  }
+</style>

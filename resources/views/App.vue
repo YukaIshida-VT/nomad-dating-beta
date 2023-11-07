@@ -23,7 +23,6 @@
         },
 
         mounted() {
-            // this.$store.dispatch('fetchAuthUser');
         },
 
         created() {

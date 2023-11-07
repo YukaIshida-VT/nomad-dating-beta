@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('twitter_id')->comment('ツイッターID');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('api_token');
             $table->text('nickname')->nullable();
+            $table->text('description')->nullable()->comment('Twitterプロフィール文');
             $table->text('avatar')->nullable()->comment('Twitterプロフィール画像パス');
             $table->rememberToken();
             $table->timestamps();
