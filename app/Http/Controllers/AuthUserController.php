@@ -14,12 +14,10 @@ class AuthUserController extends Controller
 
     public function show()
     {
-        $authUser = auth()->user();
-        session_start();
-        $token = $_SESSION['token'];
+        $user = auth()->user();
+
         return response([
-            'user' => $authUser,
-            'token' => $token
+            'user' => $user,
         ]);
     }
 }

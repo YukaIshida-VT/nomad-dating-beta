@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 import store from "./store";
 import router from "./router";
 
@@ -7,7 +8,8 @@ const axiosClient = axios.create({
 })
 
 axiosClient.interceptors.request.use(config => {
-  config.headers.Authorization = `Bearer ${sessionStorage.getItem("TOKEN")}`
+  const token = Cookies.get('PAToken');
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 })
 

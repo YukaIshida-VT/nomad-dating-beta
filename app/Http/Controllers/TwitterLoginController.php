@@ -44,9 +44,9 @@ class TwitterLoginController extends Controller
         }
         $user = User::where('twitter_id', $twitterUser->getId())->first();
          if($user){
-            if ($twitterUser->getAvatar() != $user->avatar) {
+            if ($twitterUser->attributes['avatar_original'] != $user->avatar) {
                 // ツイッターでアバターが更新されていた場合はデータベースの情報も更新する
-                User::where('twitter_id', $twitterUser->getId())->update(['avatar' => $twitterUser->getAvatar()]);
+                User::where('twitter_id', $twitterUser->getId())->update(['avatar' => $twitterUser->attributes['avatar_original']]);
             }
          }else{
             $user = new User();
@@ -59,11 +59,13 @@ class TwitterLoginController extends Controller
             $user->save();
          }
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
+         $tokens = $user->tokens->where('name', 'undefined');
+         // 古いトークンをまず削除
+         foreach ($tokens as $token) {
+             $token->delete();
+         }
          $token = $user->createToken('undefined')->plainTextToken;
-
-         // セッションに値を保存
-        session_start();
-        $_SESSION['token'] = $token;
+         setcookie('PAToken', $token, time() + (60 * 24 * 30), '/', '', false, false);
         
         // ToDo Auth::logingの処理は不要？→必要そうだ
         Auth::login($user);
@@ -72,9 +74,15 @@ class TwitterLoginController extends Controller
 
      public function logout()
      {
-        // セッションから値を削除
-        session_start();
-        unset($_SESSION['token']);
+        // Cookieからトークンを削除
+        setcookie('PAToken', '', time() - 3600, '/');
+        
+        // トークン削除
+        $user = auth()->user();
+        $tokens = $user->tokens->where('name', 'undefined');
+        foreach ($tokens as $token) {
+            $token->delete();
+        }
          Auth::logout();
          return redirect('/');
      }

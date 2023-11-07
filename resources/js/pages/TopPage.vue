@@ -29,17 +29,16 @@
                 :src="users[n -1].avatar"
                 cover
               >
-                <v-card-title class="black">{{ users[n -1].name }}</v-card-title>
+                <!-- <v-card-title class="black">{{ users[n -1].name }}</v-card-title> -->
               </v-img>
 
-              <v-card-subtitle class="pt-4">
-                Number 10
-              </v-card-subtitle>
+              <v-card-title class="black pt-4">
+                {{ users[n -1].name }}
+              </v-card-title>
 
               <v-card-text>
-                <div>Whitehaven Beach</div>
 
-                <div>Whitsunday Island, Whitsunday Islands</div>
+                <div>{{ users[n -1].description }}</div>
               </v-card-text>
 
               <v-card-actions>
