@@ -21,7 +21,7 @@ class UserFactory extends Factory
         $email = fake()->unique()->safeEmail();
         return [
             'name' => fake()->name(),
-            'nickname' => fake()->name(),
+            'nickname' => fake()->firstName(),
             'email' => $email,
             'twitter_id' => Str::random(10),
             'email_verified_at' => now(),

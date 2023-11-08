@@ -42,13 +42,18 @@
               </v-card-text>
 
               <v-card-actions>
-                <v-btn color="orange">
-                  Share
+                <v-btn v-if="likingArray.includes(users[n -1].id)" color="orange">
+                  いいね済み
+                </v-btn>
+                <v-btn v-else-if="users[n -1].id != authUser.id" color="orange" @click="like(users[n -1].id)">
+                  いいね
                 </v-btn>
 
-                <v-btn color="orange">
-                  Explore
-                </v-btn>
+                <a :href="'https://twitter.com/' + users[n - 1].nickname" target="_blank">
+                  <v-btn color="orange">
+                    ツイッター
+                  </v-btn>
+                </a>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -60,6 +65,7 @@
 
 <script>
 import axiosClient from "../axios";
+import { mapGetters } from 'vuex';
 
     export default {
         name: "TopPage",
@@ -68,11 +74,13 @@ import axiosClient from "../axios";
             return {
               loading: true,
               users: {},
+              likingArray: [],
             }
         },
 
         mounted() {
             this.getUsers();
+            this.getLikings();
         },
 
         methods: {
@@ -87,8 +95,36 @@ import axiosClient from "../axios";
                 .catch(error => {
                     this.loading = false;
                 });
-            },
           },
+          like: function(likedUserId) {
+            axiosClient.post('/likes', {liking_user_id: this.authUser.id, liked_user_id: likedUserId})
+                .then(response => {
+                    if (response) {
+                      this.likingArray.push(likedUserId);
+                      alert("いいねしました");
+                    }
+                })
+                .catch(error => {
+                });
+          },
+          getLikings: function() {
+            axiosClient.get('/likings')
+                .then(response => {
+                    if (response) {
+                      this.likingArray = response.data;
+                    }
+                })
+                .catch(error => {
+                });
+          },
+        },
+
+        computed: {
+            ...mapGetters({
+              // this.authUserをthis.$store.getters.authUserにマッピングさせる
+                authUser: 'authUser',
+            })
+        },
     }
 </script>
 
