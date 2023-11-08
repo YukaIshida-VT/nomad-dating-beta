@@ -18,7 +18,7 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::middleware('auth:sanctum')->group(function(){
-    // Route::get('/auth-user', [AuthUserController::class, 'show']);
+    Route::get('/auth-user', [AuthUserController::class, 'show']);
     Route::get('/users', [UserController::class, 'index']);
     Route::post('logout', [LoginController::class, 'logout']);
 });

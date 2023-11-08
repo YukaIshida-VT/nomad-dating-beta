@@ -1,3 +1,5 @@
+import axiosClient from "../../axios";
+
 const state = {
   user: null,
   token: null,
@@ -14,7 +16,7 @@ const getters = {
 
 const actions = {
   fetchAuthUser({commit, state}) {
-      axios.post('/auth-user')
+        axiosClient.get('/auth-user')
           .then(res => {
               commit('setAuthUser', res.data.user);
           })
