@@ -43,6 +43,7 @@ class TwitterLoginController extends Controller
             return redirect('auth/twitter');
         }
         $user = User::where('twitter_id', $twitterUser->getId())->first();
+        $userExists = true;
          if($user){
             if ($twitterUser->attributes['avatar_original'] != $user->avatar) {
                 // ツイッターでアバターが更新されていた場合はデータベースの情報も更新する
@@ -57,6 +58,7 @@ class TwitterLoginController extends Controller
             $user->avatar = $twitterUser->attributes['avatar_original'];
             $user->nickname = $twitterUser->getNickname();
             $user->save();
+            $userExists = false;
          }
          Log::info('Twitterから取得しました。', ['user' => $twitterUser]);
          $tokens = $user->tokens->where('name', 'undefined');
@@ -67,8 +69,13 @@ class TwitterLoginController extends Controller
          $token = $user->createToken('undefined')->plainTextToken;
          setcookie('PAToken', $token, time() + (60 * 24 * 30), '/', '', false, false);
         
-        // ToDo Auth::logingの処理は不要？→必要そうだ
+        // ToDo Auth::loginの処理は不要？→必要そうだ
         Auth::login($user);
+        if ($userExists) {
+            return redirect('/top');
+        } else {
+            return redirect('/profile_create');
+        }
         return redirect('/top'); 
      }
 

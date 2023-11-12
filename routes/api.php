@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('logout', [LoginController::class, 'logout']);
     Route::apiResource('likes', LikeController::class)->only(['store', 'destroy']);
     Route::get('/likings', [LikeController::class, 'getLinkings']);
+    Route::apiResource('profiles', ProfileController::class)->except('index');
 });
