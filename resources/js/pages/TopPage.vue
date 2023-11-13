@@ -3,7 +3,7 @@
     <v-app-bar extended>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Application</v-app-bar-title>
+      <v-app-bar-title>Nomad Dating</v-app-bar-title>
 
       <v-spacer></v-spacer>
 

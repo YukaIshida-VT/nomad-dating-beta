@@ -22,6 +22,11 @@ docker-compose up -d
 docker-compose down
 ```
 
+- webコンテナに入る
+```
+docker-compose exec web sh
+```
+
 - SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed対策
 ```
 docker-compose rm -v
