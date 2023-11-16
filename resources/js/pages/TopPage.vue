@@ -79,6 +79,7 @@ import { mapGetters } from 'vuex';
         },
 
         mounted() {
+            this.getHasProfile();
             this.getUsers();
             this.getLikings();
         },
@@ -116,6 +117,16 @@ import { mapGetters } from 'vuex';
                 })
                 .catch(error => {
                 });
+          },
+          getHasProfile: function() {
+          axiosClient.post('/has_profile')
+              .then(res => {
+                if (!res.data.has_profile) {
+                  this.$router.push('/profile_create');
+              }
+              })
+              .catch(error => {
+              });
           },
         },
 

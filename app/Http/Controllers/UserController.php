@@ -17,4 +17,13 @@ class UserController extends Controller
     {
       return UserResource::collection(User::get());
     }
+
+    public function hasProfile()
+    {
+      $user = auth()->user();
+
+      return response([
+        'has_profile' => $user->profile?->exists(),
+    ]);
+    }
 }

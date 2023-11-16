@@ -122,6 +122,7 @@ import axiosClient from "../axios";
             axiosClient.post('/profiles', this.form)
                 .then(response => {
                     alert("保存しました");
+                    this.$router.push('/top');
                 })
                 .catch(errors => {
                     console.log(errors.response.data.errors);
