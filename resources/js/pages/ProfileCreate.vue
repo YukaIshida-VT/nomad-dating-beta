@@ -111,12 +111,11 @@ import axiosClient from "../axios";
         },
 
         mounted() {
+          this.getProfile();
         },
 
         methods: {
           submitForm: function() {
-            // ToDo 先にバリデーション
-            // this.$refs.form.validate();
             this.form.is_nomad = (this.form.is_nomad == 1) ? 1 : 0;
 
             axiosClient.post('/profiles', this.form)
@@ -135,6 +134,20 @@ import axiosClient from "../axios";
                       this.errorMessage.comment = resErrors.comment ? resErrors.comment[0] : '';
                       this.errorMessage.gender = resErrors.gender ? resErrors.gender[0] : '';
                     }
+                });
+            },
+          getProfile: function() {
+            axiosClient.get('/get_profile')
+                .then(response => {
+                  let profile = response.data;
+                  this.form.country = profile.country;
+                  this.form.is_nomad = profile.is_nomad;
+                  this.form.occupation = profile.occupation;
+                  this.form.looking_for = profile.looking_for;
+                  this.form.gender = profile.gender;
+                  this.form.comment = profile.comment;
+                })
+                .catch(errors => {
                 });
             },
         },

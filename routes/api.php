@@ -27,4 +27,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('likes', LikeController::class)->only(['store', 'destroy']);
     Route::get('/likings', [LikeController::class, 'getLinkings']);
     Route::apiResource('profiles', ProfileController::class)->except('index');
+    Route::get('/get_profile', [ProfileController::class, 'getByUserId']);
 });

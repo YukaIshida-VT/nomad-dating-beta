@@ -31,4 +31,11 @@ class ProfileController extends Controller
 
       return true;
     }
+
+    public function getByUserId()
+    {
+      $profile = Profile::firstWhere('user_id', auth()->user()->id);
+
+      return $profile;
+    }
 }
