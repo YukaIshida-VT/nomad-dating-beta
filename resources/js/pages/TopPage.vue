@@ -42,7 +42,7 @@
               </v-card-text>
 
               <v-card-actions>
-                <v-btn v-if="likingArray.includes(users[n -1].id)" color="orange">
+                <v-btn v-if="users[n -1].liked || likingArray.includes(users[n -1].id)" color="orange">
                   いいね済み
                 </v-btn>
                 <v-btn v-else-if="users[n -1].id != authUser.id" color="orange" @click="like(users[n -1].id)">
@@ -81,7 +81,6 @@ import { mapGetters } from 'vuex';
         mounted() {
             this.getHasProfile();
             this.getUsers();
-            this.getLikings();
         },
 
         methods: {
@@ -89,7 +88,8 @@ import { mapGetters } from 'vuex';
             axiosClient.get('/users')
                 .then(response => {
                     if (response) {
-                        this.users = response.data.data;
+                      // console.log(response);
+                        this.users = response.data;
                     }
                     this.loading = false;
                 })
@@ -108,22 +108,12 @@ import { mapGetters } from 'vuex';
                 .catch(error => {
                 });
           },
-          getLikings: function() {
-            axiosClient.get('/likings')
-                .then(response => {
-                    if (response) {
-                      this.likingArray = response.data;
-                    }
-                })
-                .catch(error => {
-                });
-          },
           getHasProfile: function() {
           axiosClient.post('/has_profile')
               .then(res => {
                 if (!res.data.has_profile) {
                   this.$router.push('/profile_create');
-              }
+                }
               })
               .catch(error => {
               });
