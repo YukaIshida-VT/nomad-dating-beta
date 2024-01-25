@@ -1,4 +1,4 @@
-https://github.com/YukaIshida-VT/nomad-dating-beta/assets/102781321/ee688f65-8dc5-4019-8fe0-5cf82c6a91a7
+https://github.com/YukaIshida-VT/nomad-dating-beta/assets/102781321/4069dd72-8fed-422a-b17e-56359570d4b1
 
 ### セットアップ
 
